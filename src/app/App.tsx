@@ -7,6 +7,7 @@ import { FilterSelect} from "./components/FilterSelect";
 import { FilterRadioGroup } from "./components/FilterRadioGroup";
 import { FilterButtonGroup } from "./components/FilterButtonGroup";
 import {IFilter} from "./models/IFilter";
+import { Settings } from "../services/settings";
 
 interface IState {
   components: Item[];
@@ -114,15 +115,15 @@ export class App extends React.Component <any, IState> {
     // console.log(this.state.components);
     return (
      <div>
-       <FilterSelect filters={this._filters}
+       {/* <FilterSelect filters={this._filters}
                         selectedFilter={this.state.filter} 
-                        onChange={this.onFilterSelectChanged} />
+                        onChange={this.onFilterSelectChanged} /> */}
       <FilterButtonGroup filters={this._filters}
                         selectedFilter={this.state.filter}
                         onClick={this.onFilterChanged} />
-      <FilterRadioGroup filters={this._filters}
+      {/* <FilterRadioGroup filters={this._filters}
                         selectedFilter={this.state.filter}
-                        onChange={this.onFilterChanged} />
+                        onChange={this.onFilterChanged} /> */}
       <ItemsView title={this.state.filter.title}
                       components={this.state.components}
                       selectedItem={this.state.selectedItem}
@@ -151,6 +152,8 @@ export class App extends React.Component <any, IState> {
 
   public async componentDidMount() {
     console.log("In componentDidMount");
+    const token = await this._dataService.login("joe@bentley.com", "123");
+    Settings.Instance.SetToken(token);
 
     // initial fetch of data
     await this.UpdateData(this.state.filter);

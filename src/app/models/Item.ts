@@ -5,6 +5,5 @@ export interface Item {
     className: string;
     tag: string;
     description?: string;
-    manufacturer?: string;
     properties?: IPropertyObject;
 }

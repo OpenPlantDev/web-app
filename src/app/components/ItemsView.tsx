@@ -2,6 +2,7 @@ import * as React from "react";
 import {Item} from "../models/Item";
 import {ItemsList} from "./ItemsList";
 import { ItemDetails } from "./ItemDetails";
+import {ItemsTable} from "./ItemsTable";
 
 interface IProps {
   title: string;
@@ -15,11 +16,12 @@ export const ItemsView = (props: IProps) => {
 
   return (
     <div>
-      <ItemsList title={props.title}
+      <ItemsTable components={props.components} />
+      {/* <ItemsList title={props.title}
                       components={props.components}
                       selectedItem={props.selectedItem}
                       onItemClick={props.onItemClick} />
-      <ItemDetails component={props.selectedItem} />
+      <ItemDetails component={props.selectedItem} /> */}
     </div>
     );
 

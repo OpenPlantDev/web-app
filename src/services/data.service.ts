@@ -8,12 +8,29 @@ export class DataService {
     this._baseUrl = baseUrl;
   }
 
+  public async login(userName: string, password: string) {
+    let url = `${this._baseUrl}/login`;
+    const options = {headers: {'Authorization': `Basic ${Buffer.from(`${userName}:${password}`).toString('base64')}`}};
+    return fetch(url, options).then( async (response) => {
+              if (response.ok) {
+                  const resp = await response.json();
+                  console.log(resp.token);
+                  return resp.token;
+              } else {
+                  throw new Error("Error during login");
+              }
+            }).then((result) => {
+                return result;
+            }).catch((err) => {
+                console.log(`In login catch: ${err}`);
+                throw err;
+            });
+
+  }
+
   private async fetchData(url: string)  {
     console.log(`url: ${url}`);
     const token = Settings.Instance.GetToken();
-    if(!token) {
-      Settings.Instance.SetToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoiZGFuLm5pY2hvbHNAYmVudGxleS5jb20iLCJpYXQiOjE1ODMxNzQ0MjksImV4cCI6MTU4MzI2MDgyOSwiaXNzIjoiYmVudGxleSJ9.SN_Amsvszzm4GWUK_0FmpLYYr5qHDipYwMXpnaHe7fY");
-    }
     const options = {headers: {Authorization: `Bearer ${token}`}};
 
     return fetch(url, options).then( async (response) => {
